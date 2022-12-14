@@ -631,48 +631,24 @@ const responce = [
 
 const Home = ({ id, fetchedUser }) => {
   const [searchValue, setSearchValue] = useState('');
-  const [items, setItems] = useState(null);
-  const [itemsView, setItemsView] = useState(null);
-
-  useEffect(() => {
-    if (items === null) {
-      setItemsView(null);
-    }
-    if (items === []) {
-      setItemsView(`По запросу ${searchValue} ничего не найдено`);
-    } else {
-      setItemsView(
-        items?.map((el) => {
-          const link = `https://vk.com/photo${el.owner_id}_${el.id}`;
-          const src = el.sizes.find((e) => e.type === 'm').url;
-
-          return <Item imgIrc={src} text={el.text} link={link} key={el.id} />;
-        })
-      );
-    }
-  }, [items]);
-
-  console.log('items ' + items);
-  console.log('itemsView ' + itemsView);
+  const [data, setData] = useState(null);
 
   const searchChange = (e) => {
-    setSearchValue(e.target.value.trim());
+    setSearchValue(e.target.value);
   };
 
   const startSearch = (e) => {
     e.preventDefault();
-    if (searchValue === '') setItemsView(null);
-    else {
+
+    if (searchValue.trim() !== '') {
       fetch(
-        'https://02d3-2a00-cc47-20b9-f600-d49f-5b10-85f9-7b8d.ngrok.io/search_debug/?count=0'
+        'https://02d3-2a00-cc47-20b9-f600-d49f-5b10-85f9-7b8d.ngrok.io/search_debug/?count=5'
       )
         .then((res) => {
           return res.json();
         })
         .then((data) => {
-          console.log('data ' + data);
-          console.log('typeof data: ' + data === null);
-          setItems(data);
+          setData(data);
         });
     }
   };
@@ -696,25 +672,26 @@ const Home = ({ id, fetchedUser }) => {
               minHeight: '70vh',
             }}
           >
-            {itemsView}
+            {data &&
+              data.map((el) => {
+                const link = `https://vk.com/photo${el.owner_id}_${el.id}`;
+                const src = el.sizes.find((e) => e.type === 'm').url;
+
+                return (
+                  <Item imgIrc={src} text={el.text} link={link} key={el.id} />
+                );
+              })}
+            {data && !data.length && (
+              <p>
+                По запросу <b>{searchValue}</b> ничего не найдено
+              </p>
+            )}
           </div>
         </Group>
       </Group>
     </Panel>
   );
 };
-
-{
-  /* <form onSubmit={startSearch} style={{ display: 'flex' }}>
-          <Search value={searchValue} onChange={searchChange} />
-          <Button stretched size="l" mode="secondary" type="submit">
-            искать
-          </Button>
-        </form>
-        {items && (
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>{itemsView}</div>
-        )} */
-}
 
 Home.propTypes = {
   id: PropTypes.string.isRequired,
