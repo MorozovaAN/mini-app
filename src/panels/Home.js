@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Item } from './Item/Item';
 import {
   Panel,
-  Header,
+  FormLayout,
+  FormItem,
   Button,
   Group,
   Search,
@@ -629,52 +630,82 @@ const responce = [
 ];
 
 const Home = ({ id, fetchedUser }) => {
-  // const onClick = () => {
-  //   fetch('https://www.omdbapi.com/?t=Cinderella&apikey=aa32ac9a')
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => console.log(data));
-  // };
-
-  // https://vk.com/photo<owner_id>_<id>
-  // https://vk.com/photo-217500787_457239025
-
   const [searchValue, setSearchValue] = useState('');
   const [items, setItems] = useState(null);
-  let itemsView = items
-    ? items.length < 1
-      ? `По запросу ${searchValue} ничего не найдено`
-      : items.map((el) => {
+  const [itemsView, setItemsView] = useState(null);
+
+  useEffect(() => {
+    if (items === null) {
+      setItemsView(null);
+    }
+    if (items === []) {
+      setItemsView(`По запросу ${searchValue} ничего не найдено`);
+    } else {
+      setItemsView(
+        items?.map((el) => {
           const link = `https://vk.com/photo${el.owner_id}_${el.id}`;
           const src = el.sizes.find((e) => e.type === 'm').url;
 
           return <Item imgIrc={src} text={el.text} link={link} key={el.id} />;
         })
-    : null;
+      );
+    }
+  }, [items]);
+
+  console.log('items ' + items);
+  console.log('itemsView ' + itemsView);
 
   const searchChange = (e) => {
-    itemsView = null;
-    setSearchValue(e.target.value);
+    setSearchValue(e.target.value.trim());
   };
 
   const startSearch = (e) => {
     e.preventDefault();
-    fetch(
-      'https://90a0-2a00-cc47-20b9-f600-89c-48ec-614b-47b9.ngrok.io/search_debug/?count=0'
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setItems(data);
-      });
+    if (searchValue === '') setItemsView(null);
+    else {
+      fetch(
+        'https://02d3-2a00-cc47-20b9-f600-d49f-5b10-85f9-7b8d.ngrok.io/search_debug/?count=0'
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log('data ' + data);
+          console.log('typeof data: ' + data === null);
+          setItems(data);
+        });
+    }
   };
 
   return (
     <Panel id={id}>
-      <Group header={<Header mode="secondary">Navigation Example</Header>}>
-        <form onSubmit={startSearch} style={{ display: 'flex' }}>
+      <Group>
+        <FormLayout onSubmit={startSearch}>
+          <FormItem>
+            <Search value={searchValue} onChange={searchChange} />
+          </FormItem>
+        </FormLayout>
+        <Group>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              gap: '20px',
+              padding: '15px',
+              minHeight: '70vh',
+            }}
+          >
+            {itemsView}
+          </div>
+        </Group>
+      </Group>
+    </Panel>
+  );
+};
+
+{
+  /* <form onSubmit={startSearch} style={{ display: 'flex' }}>
           <Search value={searchValue} onChange={searchChange} />
           <Button stretched size="l" mode="secondary" type="submit">
             искать
@@ -682,13 +713,8 @@ const Home = ({ id, fetchedUser }) => {
         </form>
         {items && (
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>{itemsView}</div>
-        )}
-      </Group>
-    </Panel>
-  );
-};
-
-
+        )} */
+}
 
 Home.propTypes = {
   id: PropTypes.string.isRequired,
