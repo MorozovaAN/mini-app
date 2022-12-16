@@ -1,34 +1,31 @@
-import { Card, Paragraph, Link } from '@vkontakte/vkui';
+import { Card, Link, Paragraph } from '@vkontakte/vkui';
+import './Item.css';
 
-export const Item = ({ link, imgIrc, text }) => {
+export const Item = ({ ownerId, photoId, sizes, text }) => {
+  const link = `https://vk.com/photo${ownerId}_${photoId}`;
+  const imgIrc = sizes.find((e) => e.type === 'm').url;
   const description = text ? text : 'нет описания';
+
   return (
-    <Card
-      mode="shadow"
-      style={{
-        height: '200px',
-        width: '150px',
-        padding: '10px',
-        overflow: 'hidden',
-      }}
-    >
+    <Card mode="shadow" className="card">
       <Link
         href={link}
+        target="_blank"
         style={{
           height: '200px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
           alignItems: 'center',
+          rowGap: '24px',
+          // textDecoration: 'none',
         }}
       >
         <img
           src={imgIrc}
-          style={{ maxHeight: '150px', objectFit: 'contain' }}
+          style={{ objectFit: 'contain' }}
         />
-        <p style={{ toverflow: 'hidden', extOverflow: 'ellipsis' }}>
-          {description}
-        </p>
+        <Paragraph className="paragraph">{description}</Paragraph>
       </Link>
     </Card>
   );

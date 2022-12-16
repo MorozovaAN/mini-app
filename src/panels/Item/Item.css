@@ -1,0 +1,15 @@
+.paragraph {
+  overflow: hidden;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.card {
+  height: 240px;
+  width: 190px;
+  padding: 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
