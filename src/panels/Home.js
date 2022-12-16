@@ -639,16 +639,19 @@ const Home = ({ id, fetchedUser }) => {
 
   const startSearch = (e) => {
     e.preventDefault();
-
-    if (searchValue.trim() !== '') {
+    const find = searchValue.trim();
+    if (find !== '') {
       fetch(
-        'https://02d3-2a00-cc47-20b9-f600-d49f-5b10-85f9-7b8d.ngrok.io/search_debug/?count=5'
+        `https://06c1-2a00-cc47-20b9-f600-fc1b-954f-57cf-8305.ngrok.io/search?search_query=${find}`
       )
         .then((res) => {
           return res.json();
         })
         .then((data) => {
           setData(data);
+        })
+        .catch((e) => {
+          console.log(e);
         });
     }
   };

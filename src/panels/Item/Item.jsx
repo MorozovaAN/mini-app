@@ -1,11 +1,16 @@
-import { Card, Headline, Link } from '@vkontakte/vkui';
+import { Card, Paragraph, Link } from '@vkontakte/vkui';
 
 export const Item = ({ link, imgIrc, text }) => {
   const description = text ? text : 'нет описания';
   return (
     <Card
       mode="shadow"
-      style={{ height: '200px', width: '150px', padding: '10px' }}
+      style={{
+        height: '200px',
+        width: '150px',
+        padding: '10px',
+        overflow: 'hidden',
+      }}
     >
       <Link
         href={link}
@@ -21,7 +26,9 @@ export const Item = ({ link, imgIrc, text }) => {
           src={imgIrc}
           style={{ maxHeight: '150px', objectFit: 'contain' }}
         />
-        <Headline>{description}</Headline>
+        <p style={{ toverflow: 'hidden', extOverflow: 'ellipsis' }}>
+          {description}
+        </p>
       </Link>
     </Card>
   );
