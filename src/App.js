@@ -11,9 +11,10 @@ import {
   Group,
   Search,
   Spinner,
+  Button,
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
-import './Home.css';
+import './App.css';
 
 const App = () => {
   const [fetchedUser, setUser] = useState(null);
@@ -45,6 +46,7 @@ const App = () => {
 
   const startSearch = (e) => {
     e.preventDefault();
+    setData(null);
 
     const find = searchValue.trim();
     if (find !== '') {
@@ -66,27 +68,31 @@ const App = () => {
   return (
     <ConfigProvider scheme={scheme}>
       <AdaptivityProvider>
-        <AppRoot style={{ background: 'white' }}>
-          <FormLayout onSubmit={startSearch}>
+        <AppRoot className="app-root">
+          <FormLayout onSubmit={startSearch} className="form-content">
             <FormItem>
-              <Search value={searchValue} onChange={searchChange} />
+              <Search
+                value={searchValue}
+                onChange={searchChange}
+                placeholder="Напишите, что вы ищите через пробел, например: платье 44"
+              />
             </FormItem>
+            {/* <FormItem>
+              <Button>Найти</Button>
+            </FormItem> */}
           </FormLayout>
 
-          {loading && <Spinner size="medium" style={{ padding: '40px 0' }} />}
+          {loading && <Spinner size="medium" className="spinner" />}
 
           {data && !loading && (
-            <Group
-              padding="undefined"
-              separator="hide"
-              className="itemsContainer"
-            >
+            <Group padding="m" separator="hide" className="items-container ">
               {data.map((el) => (
                 <Item
                   ownerId={el.owner_id}
                   photoId={el.photo_id}
                   sizes={el.sizes}
                   text={el.text}
+                  date={el.date}
                   key={el.photo_id}
                 />
               ))}

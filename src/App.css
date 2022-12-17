@@ -1,0 +1,33 @@
+.app-root {
+  background: #fff;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  height: fit-content;
+  min-height: 100%;
+}
+
+.app-content {
+  padding: 15px;
+  height: 98%;
+  box-sizing: border-box;
+}
+
+/* .form-content {
+  display: flex;
+} */
+
+.spinner {
+  padding: 40px 0;
+  height: auto;
+}
+
+.vkuiGroup__inner.Group__inner {
+  height: 100%;
+}
+
+.items-container .vkuiGroup__inner.Group__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  padding: 20px;
+}
