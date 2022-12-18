@@ -12,9 +12,11 @@
   box-sizing: border-box;
 }
 
-/* .form-content {
-  display: flex;
-} */
+.form-content>div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+}
 
 .spinner {
   padding: 40px 0;
