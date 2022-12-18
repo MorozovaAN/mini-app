@@ -17,10 +17,9 @@ import '@vkontakte/vkui/dist/vkui.css';
 import './App.css';
 
 const App = () => {
-  const [fetchedUser, setUser] = useState(null);  
+  const [fetchedUser, setUser] = useState(null);
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
   const [scheme, setScheme] = useState('vkcom_light');
-
 
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState(null);
@@ -44,6 +43,7 @@ const App = () => {
   }, []);
 
   const searchChange = (e) => {
+    setData(null);
     setMessage(false);
     setSearchValue(e.target.value);
   };
@@ -52,14 +52,14 @@ const App = () => {
     e.preventDefault();
 
     const find = searchValue.trim();
-    if (find !== '') {
+    if (find) {
       setLoading(true);
       fetch(`https://99357.web.hosting-russia.ru/search/?search_query=${find}`)
         .then((res) => {
           return res.json();
         })
         .then((data) => {
-          if (data.length < 1) {
+          if (!data.length) {
             setData(null);
             setMessage(true);
           } else {
@@ -77,8 +77,7 @@ const App = () => {
       <AdaptivityProvider>
         <AppRoot className="app-root">
           <FormLayout onSubmit={startSearch} className="form-content">
-            <FormItem style={{ width: '720px' }}>
-              {/* //todo избавится от хард кода */}
+            <FormItem>
               <Search
                 value={searchValue}
                 onChange={searchChange}
@@ -110,18 +109,16 @@ const App = () => {
           )}
 
           {message && !loading && (
-            <p style={{ textAlign: 'center' }}>
+            <p className="error-text">
               По запросу <b>"{searchValue}"</b> ничего не найдено
             </p>
           )}
-          {/* //todo дублирование кода */}
 
           {error && !loading && (
-            <p style={{ textAlign: 'center' }}>
+            <p className="error-text">
               Что-то пошло не так, попробуйте еще раз
             </p>
           )}
-
         </AppRoot>
       </AdaptivityProvider>
     </ConfigProvider>

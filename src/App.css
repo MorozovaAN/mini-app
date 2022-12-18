@@ -12,10 +12,18 @@
   box-sizing: border-box;
 }
 
-.form-content>div {
+.form-content .Search__width {
+  width: 100%;
+}
+.form-content .FormItem--vkcom {
+  width: 100%;
+}
+
+.form-content .vkuiFormLayout__container {
   display: grid;
+  align-items: flex-end;
   grid-template-columns: 1fr auto;
-  align-items: end;
+  column-gap: 25px;
 }
 
 .spinner {
@@ -32,4 +40,8 @@
   flex-wrap: wrap;
   gap: 28px;
   padding: 20px;
+}
+
+.error-text {
+  text-align: center;
 }
