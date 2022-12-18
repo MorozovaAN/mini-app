@@ -17,9 +17,10 @@ import '@vkontakte/vkui/dist/vkui.css';
 import './App.css';
 
 const App = () => {
-  const [fetchedUser, setUser] = useState(null);
-  const [scheme, setScheme] = useState('vkcom_light');
+  const [fetchedUser, setUser] = useState(null);  
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
+  const [scheme, setScheme] = useState('vkcom_light');
+
 
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState(null);

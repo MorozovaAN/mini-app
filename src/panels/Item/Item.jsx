@@ -1,4 +1,4 @@
-import { Caption, Card, Link, Paragraph } from '@vkontakte/vkui';
+import { Caption, Card, Paragraph } from '@vkontakte/vkui';
 import './Item.css';
 
 export const Item = ({ ownerId, photoId, sizes, text, date }) => {
@@ -8,9 +8,8 @@ export const Item = ({ ownerId, photoId, sizes, text, date }) => {
 
   return (
     <Card mode="shadow" className="card">
-      <Link
+      <a
         href={link}
-        hasHover="false"
         target="_blank"
         className="card__content"
       >
@@ -18,7 +17,7 @@ export const Item = ({ ownerId, photoId, sizes, text, date }) => {
 
         <Paragraph className="card__description">{description}</Paragraph>
         <Caption  className="card__data" level="3">Размещено: {date}</Caption>
-      </Link>
+      </a>
     </Card>
   );
 };
