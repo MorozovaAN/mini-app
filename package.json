@@ -15,7 +15,7 @@
   "dependencies": {
     "@vkontakte/icons": "^2.1.1",
     "@vkontakte/vk-bridge": "latest",
-    "@vkontakte/vk-miniapps-deploy": "0.0.25",
+    "@vkontakte/vk-miniapps-deploy": "^0.0.26",
     "@vkontakte/vkjs": "0.20.0",
     "@vkontakte/vkui": "^4.40.0",
     "babel-eslint": "^10.1.0",

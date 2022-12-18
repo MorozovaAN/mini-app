@@ -81,7 +81,7 @@ const App = () => {
               <Search
                 value={searchValue}
                 onChange={searchChange}
-                placeholder="Напишите, что вы ищите через пробел, например: платье 44"
+                placeholder="Напишите, что вы ищете через пробел, например: платье 44"
               />
             </FormItem>
             <FormItem>
