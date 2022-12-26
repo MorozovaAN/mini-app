@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import { Item } from './panels/Item/Item';
+import { getItems } from './api/api.js';
 import {
   ScreenSpinner,
   AdaptivityProvider,
@@ -12,6 +13,9 @@ import {
   Search,
   Spinner,
   Button,
+  Select,
+  FormLayoutGroup,
+  Title,
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import './App.css';
@@ -26,6 +30,11 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(false);
   const [error, setError] = useState(false);
+  const [sortValue, setSortValue] = useState('data');
+  const sortOptions = [
+    { value: 'date', label: 'по дате' },
+    { value: 'relevance', label: 'по релевантности' },
+  ];
 
   useEffect(() => {
     bridge.subscribe(({ detail: { type, data } }) => {
@@ -42,70 +51,84 @@ const App = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (data) {
+      startSearch();
+    }
+  }, [sortValue]);
+
   const searchChange = (e) => {
     setData(null);
     setMessage(false);
     setSearchValue(e.target.value);
   };
 
-  const startSearch = (e) => {
-    e.preventDefault();
-
+  const startSearch = async (e) => {
+    e?.preventDefault();
     const find = searchValue.trim();
+
     if (find) {
       setLoading(true);
-      fetch(`https://99357.web.hosting-russia.ru/search/?search_query=${find}`)
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          if (!data.length) {
-            setData(null);
-            setMessage(true);
-          } else {
-            setData(data);
-          }
-        })
-        .catch((e) => {
-          setError(true);
-        })
-        .finally(() => setLoading(false));
+      try {
+        const data = await getItems(find, sortValue);
+        data.length ? setData(data) : setMessage(true) && setData(null);
+      } catch (e) {
+        setError(true);
+      }
+
+      setLoading(false);
     }
   };
+
   return (
     <ConfigProvider appearance={scheme}>
       <AdaptivityProvider>
         <AppRoot className="app-root">
-          <FormLayout onSubmit={startSearch} className="form-content">
-            <FormItem>
-              <Search
-                value={searchValue}
-                onChange={searchChange}
-                placeholder="Напишите, что вы ищете через пробел, например: платье 44"
-              />
-            </FormItem>
-            <FormItem>
-              <Button size="l" type="submit">
-                Найти
-              </Button>
-            </FormItem>
+          <FormLayout onSubmit={startSearch}>
+            <FormLayoutGroup className="form-content">
+              <FormItem>
+                <Search
+                  value={searchValue}
+                  onChange={searchChange}
+                  placeholder="Напишите, что вы ищете через пробел, например: платье 44"
+                />
+              </FormItem>
+              <FormItem className="sort" top="Сортировать">
+                <Select
+                  sizeX="10"
+                  options={sortOptions}
+                  value={sortValue}
+                  onChange={(e) => setSortValue(e.target.value)}
+                />
+              </FormItem>
+              <FormItem>
+                <Button size="l" type="submit">
+                  Найти
+                </Button>
+              </FormItem>
+            </FormLayoutGroup>
           </FormLayout>
 
           {loading && <Spinner size="medium" className="spinner" />}
 
           {data && !loading && (
-            <Group padding="m" separator="hide" className="items-container ">
-              {data.map((el) => (
-                <Item
-                  ownerId={el.owner_id}
-                  photoId={el.photo_id}
-                  sizes={el.sizes}
-                  text={el.text}
-                  date={el.date}
-                  key={el.photo_id}
-                />
-              ))}
-            </Group>
+            <>
+              <Title level="2" className="totalPhotos">
+                Найдено {data.length} фото:
+              </Title>
+              <Group padding="m" separator="hide" className="items-container ">
+                {data.map((el) => (
+                  <Item
+                    ownerId={el.owner_id}
+                    photoId={el.photo_id}
+                    sizes={el.sizes}
+                    text={el.text}
+                    date={el.date}
+                    key={el.photo_id}
+                  />
+                ))}
+              </Group>
+            </>
           )}
 
           {message && !loading && (

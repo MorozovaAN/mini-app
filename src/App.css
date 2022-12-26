@@ -19,11 +19,11 @@
   width: 100%;
 }
 
-.form-content .vkuiFormLayout__container {
+.form-content {
   display: grid;
   align-items: flex-end;
-  grid-template-columns: 1fr auto;
-  column-gap: 25px;
+  grid-template-columns: 1fr 180px auto;
+  column-gap: 20px;
 }
 
 .spinner {
@@ -44,4 +44,12 @@
 
 .error-text {
   text-align: center;
+}
+
+.sort {
+  width: 180px;
+}
+
+.totalPhotos {
+  margin: 15px 0 15px 15px;
 }
