@@ -24,7 +24,6 @@ const App = () => {
   const [fetchedUser, setUser] = useState(null);
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
   const [scheme, setScheme] = useState('vkcom_light');
-
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -80,19 +79,25 @@ const App = () => {
     }
   };
 
+  const placeholder =
+    window.innerWidth < 460
+      ? 'Пример запроса: платье 44'
+      : 'Напишите, что вы ищете, например: платье 44';
+
   return (
     <ConfigProvider appearance={scheme}>
       <AdaptivityProvider>
         <AppRoot className="app-root">
           <FormLayout onSubmit={startSearch}>
             <FormLayoutGroup className="form-content">
-              <FormItem>
+              <FormItem className="search">
                 <Search
                   value={searchValue}
                   onChange={searchChange}
-                  placeholder="Напишите, что вы ищете через пробел, например: платье 44"
+                  placeholder={placeholder}
                 />
               </FormItem>
+
               <FormItem className="sort" top="Сортировать">
                 <Select
                   sizeX="10"
@@ -101,7 +106,8 @@ const App = () => {
                   onChange={(e) => setSortValue(e.target.value)}
                 />
               </FormItem>
-              <FormItem>
+
+              <FormItem className="button">
                 <Button size="l" type="submit">
                   Найти
                 </Button>
@@ -109,14 +115,15 @@ const App = () => {
             </FormLayoutGroup>
           </FormLayout>
 
-          {loading && <Spinner size="medium" className="spinner" />}
+          {loading && <Spinner size="large" className="spinner" />}
 
           {data && !loading && (
             <>
               <Title level="2" className="totalPhotos">
                 Найдено {data.length} фото:
               </Title>
-              <Group padding="m" separator="hide" className="items-container ">
+
+              <Group padding="m" separator="hide" className="items-container">
                 {data.map((el) => (
                   <Item
                     ownerId={el.owner_id}

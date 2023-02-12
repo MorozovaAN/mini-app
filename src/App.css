@@ -1,9 +1,9 @@
 .app-root {
-  background: #fff;
   box-sizing: border-box;
   padding: 10px 20px;
+  min-height: 100vh;
   height: fit-content;
-  min-height: 100%;
+  background-color: #fff;
 }
 
 .app-content {
@@ -12,16 +12,31 @@
   box-sizing: border-box;
 }
 
-.form-content .Search__width {
-  width: 100%;
-}
+.form-content .Search__width,
 .form-content .FormItem--vkcom {
   width: 100%;
 }
 
+.vkuiSearch__in.Search__in {
+  height: 44px;
+}
+
+.vkuiFormItem,
+.vkuiSearch {
+  padding: 0;
+}
+
+.vkuiSelect__title {
+  font-size: 14px;
+}
+
+.vkuiSelect__container {
+  padding-right: 0;
+}
+
 .form-content {
   display: grid;
-  align-items: flex-end;
+  align-items: end;
   grid-template-columns: 1fr 180px auto;
   column-gap: 20px;
 }
@@ -37,6 +52,7 @@
 
 .items-container .vkuiGroup__inner.Group__inner {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 28px;
   padding: 20px;
@@ -52,4 +68,38 @@
 
 .totalPhotos {
   margin: 15px 0 15px 15px;
+}
+
+@media (max-width: 770px) {
+  .form-content {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .search {
+    grid-column: 1 / 3;
+  }
+
+  .sort {
+    grid-column: 1 / 2;
+    width: 100%;
+  }
+
+  .button {
+    grid-column: 2 / 3;
+    width: 100%;
+    align-self: end;
+  }
+
+  .button .vkuiButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .items-container div.vkuiGroup__inner.Group__inner {
+    gap: 15px;
+    padding: 10px;
+  }
 }
