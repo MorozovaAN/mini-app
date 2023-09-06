@@ -1,4 +1,4 @@
-import baseURL from './baseURL';
+import {baseURL} from "./baseURL";
 
 export const getItems = async (searchValue, sortValue) => {
   const res = await fetch(

@@ -95,6 +95,7 @@ const App = () => {
                   value={searchValue}
                   onChange={searchChange}
                   placeholder={placeholder}
+                  className='search-inner'
                 />
               </FormItem>
 

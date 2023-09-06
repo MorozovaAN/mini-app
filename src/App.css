@@ -22,7 +22,7 @@
 }
 
 .vkuiFormItem,
-.vkuiSearch {
+.vkuiSearch, .vkuiSearch.search-inner {
   padding: 0;
 }
 
@@ -50,7 +50,7 @@
   height: 100%;
 }
 
-.items-container .vkuiGroup__inner.Group__inner {
+.vkuiGroup.items-container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

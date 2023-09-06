@@ -19,6 +19,7 @@
     "@vkontakte/vkjs": "0.20.0",
     "@vkontakte/vkui": "^4.40.0",
     "babel-eslint": "^10.1.0",
+    "browserslist": "^4.21.10",
     "eruda": "^2.4.1",
     "eruda-code": "^2.0.0",
     "eruda-dom": "^2.0.0",
